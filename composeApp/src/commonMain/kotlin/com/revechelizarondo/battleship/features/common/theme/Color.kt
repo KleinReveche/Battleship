@@ -39,7 +39,8 @@ val Fire3 = Color(0xFFFFCE00)
 val Fire4 = Color(0xFFFFE808)
 
 enum class UIColorTypes {
-    Default,
+    WildViolet,
     Yellow,
     Green,
+    PixelBlue
 }

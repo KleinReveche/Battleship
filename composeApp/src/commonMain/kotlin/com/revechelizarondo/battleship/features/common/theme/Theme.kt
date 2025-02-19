@@ -5,14 +5,15 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import com.revechelizarondo.battleship.features.common.theme.uicolors.Default
+import com.revechelizarondo.battleship.features.common.theme.uicolors.PixelBlue
 import com.revechelizarondo.battleship.features.common.theme.uicolors.Green
+import com.revechelizarondo.battleship.features.common.theme.uicolors.WildViolet
 import com.revechelizarondo.battleship.features.common.theme.uicolors.Yellow
 
 @Composable
 expect fun BattleshipTheme(
     dynamicColorAndroid: Boolean = true,
-    uiColorTypes: UIColorTypes = UIColorTypes.Default,
+    uiColorTypes: UIColorTypes = UIColorTypes.WildViolet,
     darkTheme: Boolean = isSystemInDarkTheme(),
     oled: Boolean = true,
     content: @Composable () -> Unit,
@@ -21,9 +22,10 @@ expect fun BattleshipTheme(
 fun lightColorScheme(uiColorTypes: UIColorTypes): ColorScheme {
     val colorType =
         when (uiColorTypes) {
-            UIColorTypes.Default -> Default
+            UIColorTypes.WildViolet -> WildViolet
             UIColorTypes.Yellow -> Yellow
             UIColorTypes.Green -> Green
+            UIColorTypes.PixelBlue -> PixelBlue
         }
 
     return lightColorScheme(
@@ -72,9 +74,10 @@ fun darkColorScheme(
 ): ColorScheme {
     val colorType =
         when (uiColorTypes) {
-            UIColorTypes.Default -> Default
+            UIColorTypes.WildViolet -> WildViolet
             UIColorTypes.Yellow -> Yellow
             UIColorTypes.Green -> Green
+            UIColorTypes.PixelBlue -> PixelBlue
         }
 
     return darkColorScheme(

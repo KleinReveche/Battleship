@@ -2,7 +2,7 @@ package com.revechelizarondo.battleship.features.common.theme.uicolors
 
 import androidx.compose.ui.graphics.Color
 
-object Default : UIColor {
+object PixelBlue : UIColor {
     override fun primaryLight() = Color(0xFF004DA6)
 
     override fun onPrimaryLight() = Color(0xFFFFFFFF)
