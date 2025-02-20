@@ -14,7 +14,7 @@ import com.revechelizarondo.battleship.features.common.theme.uicolors.Yellow
 expect fun BattleshipTheme(
     dynamicColorAndroid: Boolean = true,
     uiColorTypes: UIColorTypes = UIColorTypes.WildViolet,
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = false,
     oled: Boolean = true,
     content: @Composable () -> Unit,
 )

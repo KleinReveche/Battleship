@@ -42,12 +42,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.revechelizarondo.battleship.features.common.verticalScrollAndDrag
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Settings(onBackClick: () -> Unit) {
+fun Settings(navController: NavController) {
     var selectedTheme by remember { mutableStateOf("Light") }
     var selectedOled by remember { mutableStateOf("No") }
     var selectedColor by remember { mutableStateOf("Wild Violet") }
@@ -67,7 +68,7 @@ fun Settings(onBackClick: () -> Unit) {
                 TopAppBar(
                     title = { Text("Settings") },
                     navigationIcon = {
-                        IconButton(onClick = onBackClick) {
+                        IconButton(onClick = { navController.popBackStack() }) {
                             Icon(
                                 imageVector = Icons.Filled.Close,
                                 contentDescription = "Back",
@@ -111,7 +112,7 @@ fun Settings(onBackClick: () -> Unit) {
                 RadioButtonOption("Dynamic", selectedColor) { selectedColor = it }
                 RadioButtonOption("Yellow", selectedColor) { selectedColor = it }
                 RadioButtonOption("Green", selectedColor) { selectedColor = it }
-                RadioButtonOption("Pixel Blue", selectedColor) { selectedColor = it}
+                RadioButtonOption("Pixel Blue", selectedColor) { selectedColor = it }
             }
         }
     }
@@ -161,15 +162,5 @@ fun RadioButtonOption(text: String, selectedOption: String, onOptionSelected: (S
             modifier = Modifier.padding(start = 8.dp),
             fontSize = 16.sp
         )
-    }
-}
-
-@Preview
-@Composable
-fun SettingsPreview() {
-    MaterialTheme(
-        colorScheme = lightColorScheme()
-    ){
-        Settings(onBackClick = {})
     }
 }
