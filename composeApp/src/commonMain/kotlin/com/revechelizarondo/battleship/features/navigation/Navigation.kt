@@ -6,7 +6,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.revechelizarondo.battleship.features.main.MainScreen
 import com.revechelizarondo.battleship.features.main.MainScreenDestination
-import com.revechelizarondo.battleship.features.settings.Settings
+import com.revechelizarondo.battleship.features.settings.SettingsScreen
+import com.revechelizarondo.battleship.features.settings.SettingsScreenDestination
 
 @Composable
 fun Navigation() {
@@ -18,8 +19,8 @@ fun Navigation() {
         composable<MainScreenDestination> {
             MainScreen(navController)
         }
-        composable("settings") {
-            Settings(navController)
+        composable<SettingsScreenDestination> {
+            SettingsScreen(navController)
         }
     }
 }

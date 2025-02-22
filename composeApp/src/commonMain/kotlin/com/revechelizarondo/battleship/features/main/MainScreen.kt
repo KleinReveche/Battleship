@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.revechelizarondo.battleship.features.main.components.MenuButton
+import com.revechelizarondo.battleship.features.settings.SettingsScreenDestination
 import kotlinx.serialization.Serializable
 
 @Composable
@@ -74,7 +75,7 @@ fun MainScreen(navController: NavController) {
         }
 
         FloatingActionButton(
-            onClick = { navController.navigate("settings") },
+            onClick = { navController.navigate(SettingsScreenDestination) },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)

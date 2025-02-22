@@ -1,7 +1,6 @@
 package com.revechelizarondo.battleship.features.settings
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.rememberScrollableState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Card
@@ -27,7 +25,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,16 +41,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.revechelizarondo.battleship.features.common.verticalScrollAndDrag
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import kotlinx.serialization.Serializable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Settings(navController: NavController) {
+fun SettingsScreen(navController: NavController) {
     var selectedTheme by remember { mutableStateOf("Light") }
     var selectedOled by remember { mutableStateOf("No") }
     var selectedColor by remember { mutableStateOf("Wild Violet") }
-    var scope = rememberCoroutineScope()
-    var scrollState = rememberScrollState()
+    val scope = rememberCoroutineScope()
+    val scrollState = rememberScrollState()
 
     Scaffold(
         topBar = {
@@ -164,3 +161,6 @@ fun RadioButtonOption(text: String, selectedOption: String, onOptionSelected: (S
         )
     }
 }
+
+@Serializable
+object SettingsScreenDestination
