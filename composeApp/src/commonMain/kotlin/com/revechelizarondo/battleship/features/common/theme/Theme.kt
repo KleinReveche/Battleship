@@ -5,8 +5,9 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import com.revechelizarondo.battleship.features.common.theme.uicolors.PixelBlue
+import com.revechelizarondo.battleship.domain.models.UIColorTypes
 import com.revechelizarondo.battleship.features.common.theme.uicolors.Green
+import com.revechelizarondo.battleship.features.common.theme.uicolors.PixelBlue
 import com.revechelizarondo.battleship.features.common.theme.uicolors.WildViolet
 import com.revechelizarondo.battleship.features.common.theme.uicolors.Yellow
 
@@ -14,7 +15,7 @@ import com.revechelizarondo.battleship.features.common.theme.uicolors.Yellow
 expect fun BattleshipTheme(
     dynamicColorAndroid: Boolean = true,
     uiColorTypes: UIColorTypes = UIColorTypes.WildViolet,
-    darkTheme: Boolean = false,
+    darkTheme: Boolean = isSystemInDarkTheme(),
     oled: Boolean = true,
     content: @Composable () -> Unit,
 )

@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 rootProject.name = "Battleship"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
@@ -31,3 +33,4 @@ dependencyResolutionManagement {
 include(":composeApp")
 include(":server")
 include(":shared")
+include(":sharedNonWasm")

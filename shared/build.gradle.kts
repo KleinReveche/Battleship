@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
@@ -10,15 +10,10 @@ plugins {
 
 kotlin {
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
-
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
 
     jvm()
 
@@ -40,8 +35,17 @@ kotlin {
     }
 
     sourceSets {
+        androidMain.dependencies {
+            implementation(libs.kotlinx.coroutines.android)
+        }
+
         commonMain.dependencies {
-            // put your Multiplatform dependencies here
+            implementation(libs.androidx.room.common)
+            implementation(libs.kotlinx.coroutines.core)
+        }
+
+        jvmMain.dependencies {
+            implementation(libs.kotlinx.coroutines.swing)
         }
     }
 }
@@ -50,8 +54,8 @@ android {
     namespace = "com.revechelizarondo.battleship.shared"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

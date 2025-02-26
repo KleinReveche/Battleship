@@ -9,6 +9,7 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import com.revechelizarondo.battleship.domain.models.UIColorTypes
 
 @Composable
 actual fun BattleshipTheme(

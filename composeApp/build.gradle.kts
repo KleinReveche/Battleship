@@ -9,23 +9,13 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.ksp)
 }
 
 kotlin {
     androidTarget {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
-        }
-    }
-
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "Battleship"
-            isStatic = true
         }
     }
 
@@ -55,8 +45,11 @@ kotlin {
         val desktopMain by getting
 
         androidMain.dependencies {
+            implementation(projects.sharedNonWasm)
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
         }
 
         commonMain.dependencies {
@@ -83,9 +76,10 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.http.cio)
             implementation(libs.ktor.client.websockets)
-
         }
+
         desktopMain.dependencies {
+            implementation(projects.sharedNonWasm)
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ui.tooling.preview.desktop)

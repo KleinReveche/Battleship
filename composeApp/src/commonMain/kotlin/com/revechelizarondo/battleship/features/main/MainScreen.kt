@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,11 +34,19 @@ import kotlinx.serialization.Serializable
 
 @Composable
 fun MainScreen(navController: NavController) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { navController.navigate(SettingsScreenDestination) },
+            ) {
+                Icon(Icons.Filled.Settings, contentDescription = "Settings")
+            }
+        }
+    ) { contentPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 41.dp),
+                .padding(contentPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -72,15 +81,6 @@ fun MainScreen(navController: NavController) {
                 MenuButton("Ranking", Icons.Filled.Star) {}
                 MenuButton("About", Icons.Filled.Info) {}
             }
-        }
-
-        FloatingActionButton(
-            onClick = { navController.navigate(SettingsScreenDestination) },
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp)
-        ) {
-            Icon(Icons.Filled.Settings, contentDescription = "Settings")
         }
     }
 }

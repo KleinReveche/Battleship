@@ -2,6 +2,7 @@ package com.revechelizarondo.battleship.features.common.theme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import com.revechelizarondo.battleship.domain.models.UIColorTypes
 
 @Composable
 actual fun BattleshipTheme(
