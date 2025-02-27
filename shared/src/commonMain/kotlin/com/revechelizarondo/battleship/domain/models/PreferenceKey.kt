@@ -6,6 +6,8 @@ enum class PreferenceKey(val type: PreferenceType, val defaultValue: String? = n
     IS_DARK_MODE(PreferenceType.BOOLEAN, null),
 }
 
+fun PreferenceKey.getPreferenceName(): String = "Preference.${this.name}"
+
 enum class PreferenceType {
     STRING,
     BOOLEAN,
