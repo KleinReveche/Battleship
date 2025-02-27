@@ -8,12 +8,13 @@ import androidx.room.TypeConverters
 import com.revechelizarondo.battleship.data.source.dao.PreferencesDao
 import com.revechelizarondo.battleship.data.util.Converters
 import com.revechelizarondo.battleship.domain.models.Preference
-import com.revechelizarondo.battleship.getPlatform
+import com.revechelizarondo.battleship.platform.getPlatform
 import java.nio.file.Path
 import kotlin.io.path.Path
 import kotlin.io.path.div
 
 
+@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 expect object BattleshipDatabaseCtor : RoomDatabaseConstructor<BattleshipDatabase>
 
 @Database(

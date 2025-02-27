@@ -32,7 +32,7 @@ import com.revechelizarondo.battleship.domain.models.UIColorTypes
 import com.revechelizarondo.battleship.features.common.verticalScrollAndDrag
 import com.revechelizarondo.battleship.features.settings.composable.RadioButtonOption
 import com.revechelizarondo.battleship.features.settings.composable.SettingsCard
-import com.revechelizarondo.battleship.getPlatform
+import com.revechelizarondo.battleship.platform.getPlatform
 import kotlinx.serialization.Serializable
 import org.koin.compose.koinInject
 

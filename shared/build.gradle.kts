@@ -46,6 +46,11 @@ kotlin {
 
         jvmMain.dependencies {
             implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.oshi.core)
+        }
+
+        wasmJsMain.dependencies {
+            implementation(libs.kotlinx.browser)
         }
     }
 }

@@ -8,6 +8,7 @@ import com.revechelizarondo.battleship.domain.models.PreferenceKey
 import com.revechelizarondo.battleship.domain.models.UIColorTypes
 import com.revechelizarondo.battleship.features.common.theme.BattleshipTheme
 import com.revechelizarondo.battleship.features.navigation.Navigation
+import com.revechelizarondo.battleship.platform.getPlatform
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
