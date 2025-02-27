@@ -1,4 +1,8 @@
-package com.revechelizarondo.battleship.data.source
+package com.revechelizarondo.battleship.data.sources
+
+import android.content.Context
+import androidx.room.Room
+import com.revechelizarondo.battleship.data.source.BattleshipDatabase
 
 
 fun buildBattleshipDb(context: Context): BattleshipDatabase =

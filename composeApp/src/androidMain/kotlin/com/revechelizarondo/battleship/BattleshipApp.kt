@@ -7,6 +7,6 @@ import org.koin.android.ext.koin.androidContext
 class BattleshipApp : Application() {
     override fun onCreate() {
         super.onCreate()
-        initKoin(androidContext(this@BattleshipApp))
+        initKoin { androidContext(this@BattleshipApp) }
     }
 }

@@ -1,7 +1,7 @@
 package com.revechelizarondo.battleship.di
 
 import com.revechelizarondo.battleship.data.repository.RoomLocalRepositoryImpl
-import com.revechelizarondo.battleship.data.source.buildBattleshipDb
+import com.revechelizarondo.battleship.data.sources.buildBattleshipDb
 import com.revechelizarondo.battleship.domain.repository.LocalRepository
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
