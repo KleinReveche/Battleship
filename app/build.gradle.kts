@@ -49,13 +49,17 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(projects.core.ui)
+            implementation(projects.feature.config)
+            implementation(projects.feature.leaderboard)
             implementation(projects.feature.menu)
             implementation(projects.feature.settings)
             implementation(projects.feature.play)
-            implementation(projects.feature.config)
 
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+
+            implementation(libs.koin.core)
+            implementation(libs.bundles.koin.compose)
         }
         desktopMain.dependencies {
 

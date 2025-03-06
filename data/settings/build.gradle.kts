@@ -7,8 +7,6 @@ val projectNamespace: String by project.extra
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.composeMultiplatform)
-    alias(libs.plugins.composeCompiler)
 }
 
 kotlin {
@@ -38,11 +36,11 @@ kotlin {
     }
 
     sourceSets {
-
         commonMain.dependencies {
             implementation(projects.core.data)
-        }
 
+            implementation(libs.koin.core)
+        }
     }
 }
 

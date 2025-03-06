@@ -45,6 +45,9 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(projects.core.ui)
+
+            implementation(libs.koin.core)
+            implementation(libs.bundles.koin.compose)
         }
 
         desktopMain.dependencies {

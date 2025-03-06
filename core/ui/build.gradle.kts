@@ -51,6 +51,9 @@ kotlin {
             api(compose.ui)
             api(compose.components.resources)
             api(compose.components.uiToolingPreview)
+
+            implementation(libs.koin.core)
+            implementation(libs.bundles.koin.compose)
         }
 
         desktopMain.dependencies {
