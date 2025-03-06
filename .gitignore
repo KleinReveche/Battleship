@@ -16,8 +16,3 @@ captures
 !*.xcodeproj/project.xcworkspace/
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
-/kotlin-js-store/yarn.lock
-/composeApp/.Battleship/battleship_database.db
-/composeApp/.Battleship/battleship_database.db.lck
-/composeApp/.Battleship/battleship_database.db-shm
-/composeApp/.Battleship/battleship_database.db-wal
