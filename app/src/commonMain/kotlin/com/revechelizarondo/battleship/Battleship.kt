@@ -1,7 +1,7 @@
 package com.revechelizarondo.battleship
 
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import com.revechelizarondo.battleship.core.ui.theme.BattleshipTheme
 import com.revechelizarondo.battleship.feature.menu.MenuScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplication
@@ -17,7 +17,7 @@ fun Battleship(
             modules(appModule, platformModule)
         }
     ) {
-        MaterialTheme {
+        BattleshipTheme {
             MenuScreen()
         }
     }

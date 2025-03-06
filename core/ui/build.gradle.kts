@@ -45,12 +45,15 @@ kotlin {
             api(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
+            implementation(projects.core.domain)
+
             api(compose.runtime)
             api(compose.foundation)
-            api(compose.material)
+            api(compose.material3)
             api(compose.ui)
             api(compose.components.resources)
             api(compose.components.uiToolingPreview)
+            api(libs.androidx.navigation.compose)
 
             implementation(libs.koin.core)
             implementation(libs.bundles.koin.compose)
