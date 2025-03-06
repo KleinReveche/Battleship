@@ -9,7 +9,7 @@ import org.koin.core.module.Module
 
 @Composable
 @Preview
-fun App(
+fun Battleship(
     platformModule: Module = Module()
 ) {
     KoinApplication(
