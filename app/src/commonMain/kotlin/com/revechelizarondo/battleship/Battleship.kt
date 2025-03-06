@@ -2,7 +2,7 @@ package com.revechelizarondo.battleship
 
 import androidx.compose.runtime.Composable
 import com.revechelizarondo.battleship.core.ui.theme.BattleshipTheme
-import com.revechelizarondo.battleship.feature.menu.MenuScreen
+import com.revechelizarondo.battleship.navigation.NavGraph
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplication
 import org.koin.core.module.Module
@@ -18,7 +18,7 @@ fun Battleship(
         }
     ) {
         BattleshipTheme {
-            MenuScreen()
+            NavGraph()
         }
     }
 }
