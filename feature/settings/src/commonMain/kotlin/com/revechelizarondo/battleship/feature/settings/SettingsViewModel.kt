@@ -5,10 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.revechelizarondo.battleship.core.domain.models.PreferenceKey
 import com.revechelizarondo.battleship.core.domain.models.ThemeOptions
 import com.revechelizarondo.battleship.core.domain.models.UIColorTypes
-import com.revechelizarondo.battleship.core.domain.repository.LocalRepository
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(

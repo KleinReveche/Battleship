@@ -46,7 +46,6 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(projects.core.ui)
-            implementation(projects.domain.settings)
 
             implementation(libs.koin.core)
             implementation(libs.bundles.koin.compose)

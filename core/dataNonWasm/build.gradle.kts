@@ -37,15 +37,13 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.core.data)
-
             implementation(libs.koin.core)
         }
     }
 }
 
 android {
-    namespace = "$projectNamespace.data.game"
+    namespace = "$projectNamespace.core.data"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

@@ -1,11 +1,11 @@
 package com.revechelizarondo.battleship.feature.settings
 
-import com.revechelizarondo.battleship.domain.settings.domainSettingsModule
+import com.revechelizarondo.battleship.core.domain.coreDomainModule
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val settingsModule = module {
-    includes(domainSettingsModule)
+    includes(coreDomainModule)
 
     viewModel { SettingsViewModel() }
 }
