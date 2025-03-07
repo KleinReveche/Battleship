@@ -5,16 +5,31 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.revechelizarondo.battleship.core.domain.models.PreferenceKey
 import com.revechelizarondo.battleship.core.domain.models.ThemeOptions
 import com.revechelizarondo.battleship.core.domain.models.UIColorTypes
+import com.revechelizarondo.battleship.core.domain.repository.PreferencesRepository
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(
-//    private val localRepository: LocalRepository
+    private val preferencesRepository: PreferencesRepository
 ) : ViewModel() {
     var isDarkMode: Boolean? by mutableStateOf(null)
     var isOled by mutableStateOf(false)
     var selectedTheme: UIColorTypes? by mutableStateOf(UIColorTypes.WildViolet)
+
+    init {
+        viewModelScope.launch {
+            isDarkMode = when (preferencesRepository.getPreference(PreferenceKey.IS_DARK_MODE)?.value) {
+                "true" -> true
+                "false" -> false
+                else -> null
+            }
+            isOled = preferencesRepository.getPreference(PreferenceKey.IS_OLED_MODE)?.value == "true"
+            selectedTheme =
+                UIColorTypes.valueOf(preferencesRepository.getPreference(PreferenceKey.THEME)?.value!!)
+        }
+    }
 
     fun setIsDark(selectedTheme: String) {
         when (selectedTheme) {
@@ -32,7 +47,7 @@ class SettingsViewModel(
         }
 
         viewModelScope.launch {
-//            localRepository.upsertPreference(PreferenceKey.IS_DARK_MODE, isDarkMode.toString())
+            preferencesRepository.upsertPreference(PreferenceKey.IS_DARK_MODE, isDarkMode.toString())
         }
     }
 
@@ -40,7 +55,7 @@ class SettingsViewModel(
         isOled = selected == "Yes"
 
         viewModelScope.launch {
-//            localRepository.upsertPreference(PreferenceKey.IS_OLED_MODE, isOled.toString())
+            preferencesRepository.upsertPreference(PreferenceKey.IS_OLED_MODE, isOled.toString())
         }
     }
 
@@ -48,7 +63,7 @@ class SettingsViewModel(
         this.selectedTheme = selectedTheme
 
         viewModelScope.launch {
-//            localRepository.upsertPreference(PreferenceKey.THEME, selectedTheme?.name)
+            preferencesRepository.upsertPreference(PreferenceKey.THEME, selectedTheme?.name)
         }
     }
 }

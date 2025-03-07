@@ -1,12 +1,13 @@
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 val projectNamespace: String by project.extra
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -16,28 +17,22 @@ kotlin {
         }
     }
 
-    jvm("desktop")
-
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser {
-            val rootDirPath = project.rootDir.path
-            val projectDirPath = project.projectDir.path
-            commonWebpackConfig {
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(rootDirPath)
-                        add(projectDirPath)
-                    }
-                }
-            }
-        }
-    }
+    jvm()
 
     sourceSets {
+        androidMain.dependencies {
+            implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.androidx.room.runtime.android)
+        }
         commonMain.dependencies {
+            implementation(projects.core.domain)
             implementation(libs.koin.core)
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.bundles.kotlin)
+        }
+        jvmMain.dependencies {
+            implementation(libs.androidx.sqlite.bundled)
+            implementation(libs.kotlinx.coroutines.swing)
         }
     }
 }
@@ -62,5 +57,15 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+}
+
+room { schemaDirectory("$projectDir/schemas") }
+
+dependencies {
+    listOf(
+        "kspAndroid", "kspJvm"
+    ).forEach {
+        add(it, libs.androidx.room.compiler)
     }
 }

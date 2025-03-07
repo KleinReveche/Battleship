@@ -40,7 +40,8 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.koin.core)
             api(libs.bundles.kotlin)
-            api(libs.room.common)
+
+            api(libs.androidx.room.common)
         }
     }
 }

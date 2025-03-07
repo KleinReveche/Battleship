@@ -7,5 +7,5 @@ import org.koin.dsl.module
 val settingsModule = module {
     includes(coreDomainModule)
 
-    viewModel { SettingsViewModel() }
+    viewModel { SettingsViewModel(get()) }
 }

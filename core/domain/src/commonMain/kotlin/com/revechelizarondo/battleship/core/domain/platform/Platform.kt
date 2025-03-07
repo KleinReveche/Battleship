@@ -7,8 +7,11 @@ interface Platform {
 
 enum class Platforms {
     Android,
-    Desktop,
-    WasmJs
+    Linux,
+    macOS,
+    Unknown,
+    WasmJs,
+    Windows
 }
 
 expect fun getPlatform(): Platform

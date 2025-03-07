@@ -7,6 +7,7 @@ val projectNamespace: String by project.extra
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -16,7 +17,7 @@ kotlin {
         }
     }
 
-    jvm("desktop")
+    jvm()
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
@@ -36,9 +37,20 @@ kotlin {
     }
 
     sourceSets {
-        commonMain.dependencies {
-            implementation(libs.koin.core)
+        androidMain.dependencies {
             implementation(projects.core.dataNonWasm)
+        }
+        commonMain.dependencies {
+            implementation(projects.core.domain)
+            implementation(libs.koin.core)
+
+            implementation(libs.bundles.kotlin)
+        }
+        jvmMain.dependencies {
+            implementation(projects.core.dataNonWasm)
+        }
+        wasmJsMain.dependencies {
+            implementation(libs.kotlinx.browser)
         }
     }
 }
