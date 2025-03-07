@@ -1,4 +1,4 @@
-package com.revechelizarondo.battleship.core.domain.models
+package com.revechelizarondo.battleship.core.domain.platform
 
 data object WasmJsPlatform : Platform {
     override val name = Platforms.WasmJs

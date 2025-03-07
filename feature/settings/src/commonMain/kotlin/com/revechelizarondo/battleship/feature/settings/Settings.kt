@@ -26,10 +26,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.revechelizarondo.battleship.core.domain.models.Platforms
+import com.revechelizarondo.battleship.core.domain.platform.Platforms
 import com.revechelizarondo.battleship.core.domain.models.ThemeOptions
 import com.revechelizarondo.battleship.core.domain.models.UIColorTypes
-import com.revechelizarondo.battleship.core.domain.models.getPlatform
+import com.revechelizarondo.battleship.core.domain.platform.getPlatform
 import com.revechelizarondo.battleship.core.ui.verticalScrollAndDrag
 import com.revechelizarondo.battleship.feature.settings.composable.RadioButtonOption
 import com.revechelizarondo.battleship.feature.settings.composable.SettingsCard

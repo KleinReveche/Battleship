@@ -1,4 +1,4 @@
-package com.revechelizarondo.battleship.core.domain.models
+package com.revechelizarondo.battleship.core.domain.platform
 
 data object WindowsPlatform : Platform {
     override val name: Platforms = Platforms.Desktop

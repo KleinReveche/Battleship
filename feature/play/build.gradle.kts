@@ -45,7 +45,6 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(projects.core.ui)
-            implementation(projects.domain.game)
 
             implementation(libs.koin.core)
             implementation(libs.bundles.koin.compose)
