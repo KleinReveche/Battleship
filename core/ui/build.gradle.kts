@@ -45,7 +45,7 @@ kotlin {
             api(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
-            implementation(projects.core.domain)
+            api(projects.core.domain)
 
             api(compose.runtime)
             api(compose.foundation)
