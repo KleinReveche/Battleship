@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -48,6 +49,7 @@ kotlin {
 
             implementation(libs.koin.core)
             implementation(libs.bundles.koin.compose)
+            implementation(libs.bundles.kotlin)
         }
 
         desktopMain.dependencies {
@@ -77,10 +79,4 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-}
-
-compose.resources {
-    publicResClass = false
-    packageOfResClass = "$projectNamespace.resources.feature.config"
-    generateResClass = always
 }

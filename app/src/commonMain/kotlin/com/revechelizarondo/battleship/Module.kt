@@ -1,6 +1,7 @@
 package com.revechelizarondo.battleship
 
 import com.revechelizarondo.battleship.core.data.coreDataModule
+import com.revechelizarondo.battleship.core.domain.repository.PreferencesRepository
 import com.revechelizarondo.battleship.feature.config.configModule
 import com.revechelizarondo.battleship.feature.leaderboard.leaderboardModule
 import com.revechelizarondo.battleship.feature.menu.menuModule
@@ -19,5 +20,5 @@ val appModule = module {
         coreDataModule
     )
 
-    viewModel { BattleshipViewModel(get()) }
+    viewModel { BattleshipViewModel(get<PreferencesRepository>()) }
 }

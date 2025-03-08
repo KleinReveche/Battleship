@@ -1,5 +1,7 @@
 package com.revechelizarondo.battleship.feature.menu
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
@@ -14,7 +16,14 @@ fun NavGraphBuilder.menuRoutes(
     goToLeaderboard: () -> Unit,
     goToSettings: () -> Unit,
 ) {
-    composable<MenuRoute> {
+    composable<MenuRoute>(
+        exitTransition = {
+            slideOutVertically(
+                animationSpec = tween(1000),
+                targetOffsetY = { fullHeight -> -fullHeight }
+            )
+        }
+    ) {
         MenuScreen(
             goToConfig = goToConfig,
             goToLeaderboard = goToLeaderboard,

@@ -54,6 +54,7 @@ kotlin {
             api(compose.components.resources)
             api(compose.components.uiToolingPreview)
             api(libs.androidx.navigation.compose)
+            api(libs.bundles.androidx.material3.adaptive)
 
             implementation(libs.koin.core)
             implementation(libs.bundles.koin.compose)
@@ -87,4 +88,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+}
+
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "$projectNamespace.core.ui.resources"
+    generateResClass = always
 }

@@ -1,10 +1,14 @@
 package com.revechelizarondo.battleship
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import com.revechelizarondo.battleship.core.domain.models.PreferenceKey
+import com.revechelizarondo.battleship.core.domain.models.ShipRegistry
 import com.revechelizarondo.battleship.core.domain.models.UIColorTypes
 import com.revechelizarondo.battleship.core.domain.platform.Platforms
 import com.revechelizarondo.battleship.core.domain.platform.getPlatform
@@ -20,6 +24,7 @@ import org.koin.core.module.Module
 fun Battleship(
     platformModule: Module = Module()
 ) {
+    ShipRegistry.init()
     KoinApplication(
         application = {
             modules(appModule, platformModule)
@@ -44,7 +49,7 @@ fun Battleship(
             darkTheme = isDarkMode ?: isSystemInDarkTheme(),
             oled = isOled
         ) {
-            NavGraph()
+            Surface(Modifier.fillMaxSize()) { NavGraph() }
         }
     }
 }

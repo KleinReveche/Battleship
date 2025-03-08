@@ -80,7 +80,7 @@ fun MenuScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
-                MenuButton("Play", Icons.Filled.PlayArrow) {}
+                MenuButton("Play", Icons.Filled.PlayArrow, goToConfig)
                 MenuButton("Ranking", Icons.Filled.Star) {}
                 MenuButton("About", Icons.Filled.Info) {}
             }
