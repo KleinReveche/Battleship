@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -66,7 +67,9 @@ fun PlayerGridDropZone(
     val hoverInvalidColor = Color(0xFFFF0000).copy(alpha = 0.4f) // Retro red
     val labelBgColor = Color(0xFF3D5042).copy(alpha = 0.7f) // Earth tone from port
 
-    Box {
+    Box(
+        modifier = Modifier.background(MaterialTheme.colorScheme.background.copy(alpha = 0.2F))
+    ) {
         // Radar sweep animation
         val infiniteTransition = rememberInfiniteTransition(label = "radar_sweep")
         val rotationAngle by infiniteTransition.animateFloat(

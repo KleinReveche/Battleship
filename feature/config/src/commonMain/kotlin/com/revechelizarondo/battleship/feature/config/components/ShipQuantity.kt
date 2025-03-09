@@ -2,21 +2,23 @@ package com.revechelizarondo.battleship.feature.config.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.revechelizarondo.battleship.core.domain.models.Ship
+import com.revechelizarondo.battleship.core.ui.components.pixel.PixelButton
+import com.revechelizarondo.battleship.core.ui.components.pixel.PixelContainerColors
 import com.revechelizarondo.battleship.core.ui.icons.Add
 import com.revechelizarondo.battleship.core.ui.icons.Remove
 import com.revechelizarondo.battleship.core.ui.resources.Res
 import com.revechelizarondo.battleship.core.ui.resources.add
 import com.revechelizarondo.battleship.core.ui.resources.remove
+import com.revechelizarondo.battleship.core.ui.theme.OnPixelButtonTextColor
 import org.jetbrains.compose.resources.stringResource
 
 private const val SHIP_SELECTOR_BUTTON_SIZE = 24
@@ -37,6 +39,7 @@ fun ShipQuantity(
     onShipRemoved: (Ship) -> Unit
 ) {
     ShipSelector(
+        modifier = Modifier.fillMaxSize(),
         shipTypes = shipTypes
     ) { ship, count ->
 
@@ -44,27 +47,31 @@ fun ShipQuantity(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            IconButton(
+            PixelButton(
+                enabled = true,
                 onClick = { onShipAdded(ship) },
-                modifier = Modifier.size(SHIP_SELECTOR_BUTTON_SIZE.dp),
-                enabled = count < MAX_SHIP_QUANTITY
+                cornerSize = 4,
+                colors = PixelContainerColors.NConsoleCompanyPixelContainerColors
             ) {
                 Icon(
                     imageVector = Add,
-                    contentDescription = stringResource(Res.string.add)
+                    contentDescription = stringResource(Res.string.add),
+                    tint = OnPixelButtonTextColor
                 )
             }
 
-            Text(modifier = Modifier.padding(7.dp), text = count.toString())
+            Text(modifier = Modifier.padding(15.dp), text = count.toString())
 
-            IconButton(
+            PixelButton(
+                enabled = true,
                 onClick = { onShipRemoved(ship) },
-                modifier = Modifier.size(SHIP_SELECTOR_BUTTON_SIZE.dp),
-                enabled = count > MIN_SHIP_QUANTITY
+                cornerSize = 4,
+                colors = PixelContainerColors.NConsoleCompanyPixelContainerColors
             ) {
                 Icon(
                     imageVector = Remove,
-                    contentDescription = stringResource(Res.string.remove)
+                    contentDescription = stringResource(Res.string.remove),
+                    tint = OnPixelButtonTextColor
                 )
             }
         }

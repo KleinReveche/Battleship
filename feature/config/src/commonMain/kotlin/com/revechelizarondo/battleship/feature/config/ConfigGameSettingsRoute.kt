@@ -4,18 +4,15 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
-import kotlin.reflect.KType
 
 @Serializable
 data object ConfigGameSettingsRoute
 
 fun NavGraphBuilder.configRoute(
     navigateUp: () -> Unit,
-    goToGame: () -> Unit,
-    typeMap: Map<KType, NavType<*>> = emptyMap()
+    goToGame: () -> Unit
 ) {
     composable<ConfigGameSettingsRoute>(
         enterTransition = {
@@ -31,6 +28,6 @@ fun NavGraphBuilder.configRoute(
             )
         }
     ) {
-        ConfigScreen()
+        ConfigScreen(navigateUp, goToGame)
     }
 }

@@ -10,11 +10,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -38,10 +41,14 @@ import androidx.compose.ui.unit.sp
 import com.revechelizarondo.battleship.core.domain.models.GameType
 import com.revechelizarondo.battleship.core.domain.models.PlayerType
 import com.revechelizarondo.battleship.core.domain.models.Ship
-import com.revechelizarondo.battleship.core.ui.components.retro.RetroButton
+import com.revechelizarondo.battleship.core.ui.BackHandler
+import com.revechelizarondo.battleship.core.ui.components.pixel.PixelButton
+import com.revechelizarondo.battleship.core.ui.components.pixel.PixelContainerColors
 import com.revechelizarondo.battleship.core.ui.components.retro.RetroPanel
 import com.revechelizarondo.battleship.core.ui.components.retro.RetroSlider
 import com.revechelizarondo.battleship.core.ui.components.retro.RetroStarsEffect
+import com.revechelizarondo.battleship.core.ui.icons.DirectionsBoat
+import com.revechelizarondo.battleship.core.ui.icons.Tune
 import com.revechelizarondo.battleship.core.ui.resources.Res
 import com.revechelizarondo.battleship.core.ui.resources.boardLayoutTime
 import com.revechelizarondo.battleship.core.ui.resources.gridSize
@@ -51,6 +58,7 @@ import com.revechelizarondo.battleship.core.ui.resources.selectPlayerType
 import com.revechelizarondo.battleship.core.ui.resources.selectShipCount
 import com.revechelizarondo.battleship.core.ui.resources.shotsPerTurn
 import com.revechelizarondo.battleship.core.ui.resources.timePerTurn
+import com.revechelizarondo.battleship.core.ui.theme.OnPixelButtonTextColor
 import com.revechelizarondo.battleship.core.ui.verticalScrollAndDrag
 import com.revechelizarondo.battleship.feature.config.components.LocalVsComputerDifficultySelector
 import com.revechelizarondo.battleship.feature.config.components.ShipQuantity
@@ -63,7 +71,7 @@ private const val MAX_SHOTS_PER_TURN = 5
 private val GRID_SIZES = listOf(8, 10, 12, 14, 16)
 
 @Composable
-fun GameSettings(
+fun GameParameters(
     gameType: GameType,
     currentPlayerType: PlayerType,
     changePrimaryPlayerType: (PlayerType) -> Unit,
@@ -99,6 +107,8 @@ fun GameSettings(
         startAnimation = true
     }
 
+    BackHandler(onClickReturn)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -119,30 +129,34 @@ fun GameSettings(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
                 .alpha(alphaAnim.value)
                 .verticalScrollAndDrag(scrollState, scope = scope),
             verticalArrangement = Arrangement.spacedBy(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(Modifier.fillMaxWidth().height(10.dp))
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 if (!isExpanded) {
-                    RetroButton(
-                        text = "BACK",
-                        isSelected = false,
-                        onClick = onClickReturn
-                    )
+                    PixelButton(
+                        onClick = onClickReturn,
+                        cornerSize = 2,
+                    ) {
+                        Icon(
+                            Icons.AutoMirrored.Default.ArrowBack,
+                            contentDescription = "Back",
+                            tint = OnPixelButtonTextColor
+                        )
+                    }
+
+                    Spacer(Modifier.width(16.dp))
                 }
 
                 Text(
-                    text = when (gameType) {
-                        GameType.PLAYER_VS_COMPUTER -> "BATTLESHIP SETTINGS"
-                        GameType.ONLINE -> "ONLINE SETTINGS"
-                    },
+                    text = "GAME PARAMETERS",
                     color = Color.White,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
@@ -162,11 +176,11 @@ fun GameSettings(
                             Icon(
                                 Icons.Default.Settings,
                                 contentDescription = null,
-                                tint = Color.Cyan,
+                                tint = Color.Yellow,
                                 modifier = Modifier.padding(end = 8.dp)
                             )
                             Text(
-                                "COMPUTER DIFFICULTY",
+                                "Computer Difficulty",
                                 color = Color.Yellow,
                                 fontWeight = FontWeight.Bold
                             )
@@ -189,11 +203,15 @@ fun GameSettings(
                             horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
                             currentPlayerTypeOptions.forEachIndexed { index, label ->
-                                RetroButton(
-                                    text = label,
-                                    isSelected = currentPlayerType == PlayerType.entries[index],
-                                    onClick = { changePrimaryPlayerType(PlayerType.entries[index]) }
-                                )
+                                PixelButton(
+                                    enabled = true,
+                                    onClick = { changePrimaryPlayerType(PlayerType.entries[index]) },
+                                    cornerSize = 2,
+                                    colors = if (currentPlayerType == PlayerType.entries[index]) PixelContainerColors.NConsoleCompanyPixelContainerColors
+                                    else PixelContainerColors.GreyPixelContainerColors
+                                ) {
+                                    Text(label, color = OnPixelButtonTextColor)
+                                }
                             }
                         }
                     }
@@ -206,12 +224,12 @@ fun GameSettings(
                         modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-//                        Icon(
-//                            Icons.Default.DirectionsBoat,
-//                            contentDescription = null,
-//                            tint = Color.Cyan,
-//                            modifier = Modifier.padding(end = 8.dp)
-//                        )
+                        Icon(
+                            DirectionsBoat,
+                            contentDescription = null,
+                            tint = Color.Yellow,
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
                         Text(
                             stringResource(Res.string.selectShipCount),
                             color = Color.Yellow,
@@ -233,14 +251,14 @@ fun GameSettings(
                         modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-//                        Icon(
-//                            Icons.Default.Tune,
-//                            contentDescription = null,
-//                            tint = Color.Cyan,
-//                            modifier = Modifier.padding(end = 8.dp)
-//                        )
+                        Icon(
+                            Tune,
+                            contentDescription = null,
+                            tint = Color.Yellow,
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
                         Text(
-                            "GAME PARAMETERS",
+                            "Game Parameters",
                             color = Color.Yellow,
                             fontWeight = FontWeight.Bold
                         )
@@ -280,11 +298,14 @@ fun GameSettings(
                 }
             }
 
-            RetroButton(
-                text = "NEXT",
-                isSelected = true,
-                onClick = onClickNext
-            )
+            PixelButton(
+                enabled = true,
+                onClick = onClickNext,
+                cornerSize = 4,
+                colors = PixelContainerColors.NConsoleCompanyPixelContainerColors
+            ) {
+                Text("NEXT", fontWeight = FontWeight.Bold, color = OnPixelButtonTextColor)
+            }
 
             Spacer(Modifier.size(0.dp, 16.dp))
         }
