@@ -2,6 +2,7 @@
 
 package com.revechelizarondo.battleship.core.ui.theme
 
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 val Purple80 = Color(0xFFD0BCFF)
@@ -37,3 +38,27 @@ val Fire1 = Color(0xFFFF5A00)
 val Fire2 = Color(0xFFFF8A00)
 val Fire3 = Color(0xFFFFCE00)
 val Fire4 = Color(0xFFFFE808)
+
+object RetroSpaceColors {
+    val Purple = Color(0xFF9C27B0)
+    val Pink = Color(0xFFFF4081)
+    val Yellow = Color(0xFFFFEB3B)
+    val Blue = Color(0xFF2196F3)
+    val Black = Color(0xFF121212)
+    val DeepPurple = Color(0xFF3F0071)
+
+    // Gradients
+    val PurpleGradient = Brush.verticalGradient(
+        colors = listOf(
+            Purple,
+            DeepPurple
+        )
+    )
+
+    val CardGradient = Brush.linearGradient(
+        colors = listOf(
+            DeepPurple,
+            Purple
+        )
+    )
+}
