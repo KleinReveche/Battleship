@@ -1,10 +1,8 @@
 package com.revechelizarondo.battleship.feature.config
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
@@ -27,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -44,7 +43,7 @@ import com.revechelizarondo.battleship.core.domain.models.ComputerDifficulty
 import com.revechelizarondo.battleship.core.domain.models.GameType
 import com.revechelizarondo.battleship.core.ui.components.retro.RetroStarsEffect
 import com.revechelizarondo.battleship.feature.config.layouts.GameOptions
-import com.revechelizarondo.battleship.feature.config.layouts.GameSettings
+import com.revechelizarondo.battleship.feature.config.layouts.GameParameters
 import com.revechelizarondo.battleship.feature.config.layouts.PlayerShipsConfig
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
@@ -53,7 +52,7 @@ import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
-fun ConfigScreen() {
+fun ConfigScreen(navigateUp: () -> Unit, goToGame: () -> Unit) {
     val vm: ConfigScreenViewModel = koinViewModel()
     val scope = rememberCoroutineScope()
     val navigator = rememberListDetailPaneScaffoldNavigator<Any>()
@@ -62,139 +61,194 @@ fun ConfigScreen() {
     val isExpanded =
         currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED
 
-    // Animation state
+    // Animation state with cleanup
     var startAnimation by remember { mutableStateOf(false) }
     val alphaAnim = animateFloatAsState(
         targetValue = if (startAnimation) 1f else 0f,
-        animationSpec = tween(durationMillis = 1000)
+        animationSpec = tween(durationMillis = 1000),
+        label = "fadeInAnim"
     )
 
-    // Background transition animation
-    val skyColors = listOf(
-        Color(0xFF000B32), // Deep space
-        Color(0xFF0A2472), // Space blue
-        Color(0xFF1E3B70), // Transition
-        Color(0xFF4189DD), // Sky blue
-        Color(0xFF76B0F1)  // Light sky
-    )
+    // Remember background colors to avoid recreation during transitions
+    val skyColors = remember {
+        listOf(
+            Color(0xFF000B32), // Deep space
+            Color(0xFF0A2472), // Space blue
+            Color(0xFF1E3B70), // Transition
+            Color(0xFF4189DD), // Sky blue
+            Color(0xFF76B0F1)  // Light sky
+        )
+    }
 
-    val portColors = listOf(
-        Color(0xFF4189DD), // Sky blue
-        Color(0xFF76B0F1), // Light sky
-        Color(0xFF8EC7FF), // Horizon
-        Color(0xFF0077BE), // Ocean blue
-        Color(0xFF005B8E)  // Deep sea
-    )
+    val portColors = remember {
+        listOf(
+            Color(0xFF4189DD), // Sky blue
+            Color(0xFF76B0F1), // Light sky
+            Color(0xFF8EC7FF), // Horizon
+            Color(0xFF0077BE), // Ocean blue
+            Color(0xFF005B8E)  // Deep sea
+        )
+    }
 
     LaunchedEffect(Unit) {
         startAnimation = true
     }
 
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        // Animated background
-        AnimatedContent(
-            targetState = vm.showGameOptions,
-            label = "background_transition",
-            transitionSpec = {
-                slideInVertically(tween(500)) { height -> height } togetherWith
-                        slideOutVertically(tween(500)) { height -> -height }
-            }
-        ) { isGameOptions ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        Brush.verticalGradient(
-                            colors = if (isGameOptions) skyColors else portColors
+    // Ensure proper cleanup when navigating away
+    LaunchedEffect(vm.showGameOptions) {
+        // Reset animation states if needed when view changes
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        // Background transition with key to prevent unnecessary recompositions
+        key(vm.showGameOptions) {
+            AnimatedContent(
+                targetState = vm.showGameOptions,
+                label = "background_transition",
+                transitionSpec = {
+                    slideInVertically(tween(500)) { height -> height } togetherWith
+                            slideOutVertically(tween(500)) { height -> -height }
+                }
+            ) { isGameOptions ->
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            Brush.verticalGradient(
+                                colors = if (isGameOptions) skyColors else portColors
+                            )
                         )
-                    )
-            ) {
-                if (isGameOptions) {
-                    RetroStarsEffect()
-                } else {
-                    RetroPortEffect()
+                ) {
+                    if (isGameOptions) {
+                        RetroStarsEffect()
+                    } else {
+                        // Use remember for complex drawing content
+                        val rememberKey = remember { Any() }
+                        key(rememberKey) {
+                            RetroPortEffect()
+                        }
+                    }
                 }
             }
         }
 
-        // Main content
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(10.dp)
                 .alpha(alphaAnim.value)
         ) {
-            AnimatedContent(vm.showGameOptions) { showGameOptions ->
-                AnimatedVisibility(
-                    showGameOptions,
-                    exit = slideOutVertically() + shrinkVertically()
-                ) {
-                    ListDetailPaneScaffold(
-                        directive = navigator.scaffoldDirective,
-                        value = navigator.scaffoldValue,
-                        listPane = {
-                            AnimatedPane(
-                                exitTransition = slideOutHorizontally(tween(1000))
-                            ) {
-                                GameOptions(
-                                    selectedPlayModeIndex = vm.selectedPlayIndex,
-                                    onSelectedPlayModeIndexChanged = { vm.selectedPlayIndex = it },
-                                    selectedSkinIndex = vm.selectedSkinIndex,
-                                    onSelectedSkinIndexChanged = { vm.selectedSkinIndex = it },
-                                    player1Name = vm.player1Name,
-                                    onPlayer1NameChanged = { vm.player1Name = it },
-                                    player2Name = vm.player2Name,
-                                    onPlayer2NameChanged = { vm.player2Name = it },
-                                    onNextPane = {
-                                        vm.populateShipTypes()
-                                        scope.launch {
-                                            navigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
-                                        }
-                                    },
-                                    isExpanded = isExpanded
-                                )
-                            }
-                        },
-                        detailPane = {
-                            AnimatedPane(
-                                enterTransition = slideInHorizontally(tween(700)) { it }
-                            ) {
-                                GameSettings(
-                                    gameType = GameType.entries[vm.selectedPlayIndex],
-                                    currentPlayerType = vm.playingPlayer,
-                                    changePrimaryPlayerType = { vm.playingPlayer = it },
-                                    shipTypes = vm.shipTypes,
-                                    addShip = { vm.addShip(it) },
-                                    removeShip = { vm.removeShip(it) },
-                                    gridSize = vm.gridSize,
-                                    changeGridSize = { vm.gridSize = it },
-                                    boardLayoutTimeSeconds = vm.boardLayoutTimeSeconds,
-                                    changeBoardLayoutTime = { vm.boardLayoutTimeSeconds = it },
-                                    shotsPerTurn = vm.shotsPerTurn,
-                                    changeShotsPerTurn = { vm.shotsPerTurn = it },
-                                    timePerTurnSeconds = vm.timePerTurnSeconds,
-                                    changeTimePerTurn = { vm.timePerTurnSeconds = it },
-                                    difficultyCount = difficultyCount,
-                                    difficultyPagerState = difficultyPagerState,
-                                    onClickReturn = {
-                                        scope.launch {
-                                            navigator.navigateTo(ListDetailPaneScaffoldRole.List)
-                                        }
-                                    },
-                                    onClickNext = { vm.showGameOptions = false },
-                                    isExpanded = isExpanded
-                                )
-                            }
-                        }
-                    )
+            // Separate animations with distinct keys
+            AnimatedContent(
+                targetState = vm.showGameOptions,
+                label = "content_transition",
+                transitionSpec = {
+                    slideInVertically(tween(500)) { it } togetherWith
+                            slideOutVertically(tween(500)) { -it }
                 }
-                AnimatedVisibility(
-                    !showGameOptions,
-                    enter = slideInVertically(tween(500))
-                ) {
-                    PlayerShipsConfig()
+            ) { showGameOptions ->
+                if (showGameOptions) {
+                    // Game options view
+                    key("game_options") {
+                        ListDetailPaneScaffold(
+                            directive = navigator.scaffoldDirective,
+                            value = navigator.scaffoldValue,
+                            listPane = {
+                                AnimatedPane(
+                                    exitTransition = slideOutHorizontally(tween(1000))
+                                ) {
+                                    GameOptions(
+                                        navigateUp = navigateUp,
+                                        selectedPlayModeIndex = vm.selectedPlayIndex,
+                                        onSelectedPlayModeIndexChanged = {
+                                            vm.selectedPlayIndex = it
+                                        },
+                                        selectedSkinIndex = vm.selectedSkinIndex,
+                                        onSelectedSkinIndexChanged = { vm.selectedSkinIndex = it },
+                                        player1Name = vm.player1Name,
+                                        onPlayer1NameChanged = { vm.player1Name = it },
+                                        player2Name = vm.player2Name,
+                                        onPlayer2NameChanged = { vm.player2Name = it },
+                                        onNextPane = {
+                                            vm.populateShipTypes()
+                                            scope.launch {
+                                                navigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
+                                            }
+                                        },
+                                        onNextPaneEnabled = vm.validateInput(),
+                                        isExpanded = isExpanded
+                                    )
+                                }
+                            },
+                            detailPane = {
+                                AnimatedPane(
+                                    enterTransition = slideInHorizontally(tween(700)) { it }
+                                ) {
+                                    GameParameters(
+                                        gameType = GameType.entries[vm.selectedPlayIndex],
+                                        currentPlayerType = vm.playingPlayer,
+                                        changePrimaryPlayerType = { vm.playingPlayer = it },
+                                        shipTypes = vm.shipTypes,
+                                        addShip = { vm.addShip(it) },
+                                        removeShip = { vm.removeShip(it) },
+                                        gridSize = vm.gridSize,
+                                        changeGridSize = { vm.gridSize = it },
+                                        boardLayoutTimeSeconds = vm.boardLayoutTimeSeconds,
+                                        changeBoardLayoutTime = { vm.boardLayoutTimeSeconds = it },
+                                        shotsPerTurn = vm.shotsPerTurn,
+                                        changeShotsPerTurn = { vm.shotsPerTurn = it },
+                                        timePerTurnSeconds = vm.timePerTurnSeconds,
+                                        changeTimePerTurn = { vm.timePerTurnSeconds = it },
+                                        difficultyCount = difficultyCount,
+                                        difficultyPagerState = difficultyPagerState,
+                                        onClickReturn = {
+                                            scope.launch {
+                                                navigator.navigateTo(ListDetailPaneScaffoldRole.List)
+                                            }
+                                        },
+                                        onClickNext = { vm.startPlayerShipConfig() },
+                                        isExpanded = isExpanded
+                                    )
+                                }
+                            }
+                        )
+                    }
+                } else {
+                    // Ship config view with dedicated key
+                    key("player_ships_config") {
+                        PlayerShipsConfig(
+                            navigateToGame = goToGame,
+                            returnToGameParams = { vm.returnToGameParams() },
+                            board = vm.activeBoard,
+                            shipTypes = vm.activeShipTypes,
+                            getCellInBound = { vm.getCellInBound() },
+                            getShipFromCell = { x, y -> vm.getShipFromCell(x, y) },
+                            getShipCells = { gridCoordinates -> vm.getShipCells(gridCoordinates) },
+                            isShipInBounds = { coordinates -> vm.isShipInBounds(coordinates) },
+                            updateCellInBound = { gridCoordinates ->
+                                vm.updateCellInBound(
+                                    gridCoordinates
+                                )
+                            },
+                            placeShip = { ship, shipIndex, x, y ->
+                                vm.placeShip(
+                                    ship,
+                                    shipIndex,
+                                    x,
+                                    y
+                                )
+                            },
+                            randomizeShips = { vm.randomizeShips() },
+                            resetShips = { vm.resetShips() },
+                            startDragging = { orientation, ship ->
+                                vm.startDragging(
+                                    orientation,
+                                    ship
+                                )
+                            },
+                            stopDragging = { vm.stopDragging() }
+                        )
+                    }
                 }
             }
         }
@@ -203,8 +257,8 @@ fun ConfigScreen() {
 
 @Composable
 private fun RetroPortEffect() {
+    val random = remember { Random(1) }
     Canvas(modifier = Modifier.fillMaxSize()) {
-        val random = Random(1) // Using fixed seed for consistency
 
         // Draw sky glow
         drawRect(

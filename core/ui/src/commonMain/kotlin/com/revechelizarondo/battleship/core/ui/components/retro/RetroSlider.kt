@@ -43,8 +43,8 @@ fun RetroSlider(
                 valueRange = valueRange,
                 steps = steps,
                 colors = SliderDefaults.colors(
-                    thumbColor = Color.Yellow,
-                    activeTrackColor = Color.Cyan,
+                    thumbColor = Color.Cyan,
+                    activeTrackColor = Color.Yellow,
                     inactiveTrackColor = Color.DarkGray
                 )
             )

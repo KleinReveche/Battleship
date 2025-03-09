@@ -37,3 +37,5 @@ val Fire1 = Color(0xFFFF5A00)
 val Fire2 = Color(0xFFFF8A00)
 val Fire3 = Color(0xFFFFCE00)
 val Fire4 = Color(0xFFFFE808)
+
+val OnPixelButtonTextColor = Color(0xFF394606)

@@ -10,10 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import com.revechelizarondo.battleship.core.domain.models.Orientation
 import com.revechelizarondo.battleship.core.domain.models.Ship
@@ -21,15 +24,19 @@ import com.revechelizarondo.battleship.core.ui.components.ShipView
 
 @Composable
 fun ShipSelector(
-    modifier: Modifier = Modifier,
     shipTypes: Map<Ship, Int>,
+    modifier: Modifier = Modifier,
     content: @Composable ((ship: Ship, count: Int) -> Unit)? = null
 ) {
-    ElevatedCard(
-        modifier = modifier
+    Card(
+        modifier = modifier,
+        colors = CardDefaults.elevatedCardColors().copy(
+            containerColor = Color.Transparent.copy(alpha = 0.2F)
+        ),
+        shape = RectangleShape
     ) {
         LazyRow(
-            modifier = Modifier.fillMaxWidth(0.5f).height(300.dp).padding(vertical = 30.dp),
+            modifier = Modifier.fillMaxWidth().height(400.dp).padding(vertical = 30.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {

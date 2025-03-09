@@ -4,11 +4,11 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,6 +17,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import com.revechelizarondo.battleship.core.domain.models.Orientation
@@ -39,18 +41,23 @@ fun DraggableShipView(
     startDragging: (ship: Ship, orientation: Orientation) -> Unit,
     stopDragging: () -> Unit
 ) {
-    ElevatedCard(modifier = modifier) {
+    Card(
+        modifier = modifier,
+        colors = CardDefaults.elevatedCardColors().copy(
+            containerColor = Color.Transparent.copy(alpha = 0.2F)
+        ),
+        shape = RectangleShape
+    ) {
         if (shipTypes.any { it.value > 0 }) {
             LazyRow(
-                modifier = Modifier.fillMaxWidth().padding(10.dp),
+                modifier = Modifier.padding(10.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 items(
                     items = shipTypes.entries.filter { it.value > 0 }.toList(),
-                    key = { it.key } // Use ship type as stable key
+                    key = { it.key }
                 ) { (ship, count) ->
-                    // Key orientation state to specific ship
                     var orientation by remember(ship) { mutableStateOf(Orientation.VERTICAL) }
 
                     Box(

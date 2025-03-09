@@ -1,5 +1,7 @@
 package com.revechelizarondo.battleship.core.domain.models
 
+import com.revechelizarondo.battleship.core.domain.BattleshipParcelable
+import com.revechelizarondo.battleship.core.domain.BattleshipParcelize
 import kotlinx.serialization.Serializable
 
 /**
@@ -11,13 +13,14 @@ import kotlinx.serialization.Serializable
  * @property shape the shape of the ship using a 2D list where 1 represents a point in the ship
  * @property isClassicShape if the ship is a classic shape where the ship is a straight line
  */
+@BattleshipParcelize
 @Serializable
 data class Ship(
     val size: Int,
     val shipName: String,
     val shipCode: String,
     val shape: Array<Array<Int>>
-) {
+) : BattleshipParcelable {
     init {
         val points = shape.sumOf { it.sum() }
         require(points == size) { "The number of points in the ship must be equal to the size of the ship." }

@@ -38,7 +38,7 @@ kotlin {
 }
 
 android {
-    namespace = "$projectNamespace.core.data"
+    namespace = "$projectNamespace.core.dataNonWasm"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
